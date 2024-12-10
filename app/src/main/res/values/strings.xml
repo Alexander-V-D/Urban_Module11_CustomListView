@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Urban_Module11_CustomListView</string>
+    <string name="exit">Выйти</string>
+    <string name="name">Name</string>
+    <string name="base_price">0.0</string>
+    <string name="app_title">Магазин продуктов</string>
+    <string name="create_shop">Создать магазин</string>
 </resources>

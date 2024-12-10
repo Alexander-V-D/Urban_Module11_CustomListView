@@ -2,15 +2,18 @@ package com.example.urban_module11_customlistview
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.ArrayAdapter
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import java.io.IOException
 
 const val GALLERY_REQUEST = 145
@@ -24,10 +27,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var addBTN: Button
     private var bitmap: Bitmap? = null
     private val products = mutableListOf<Product>()
+    private lateinit var mainToolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mainToolbar = findViewById(R.id.mainToolbar)
+        title = getString(R.string.create_shop)
+        setSupportActionBar(mainToolbar)
+        mainToolbar.overflowIcon?.setTint(Color.WHITE)
 
         init()
         productPictureIV.setOnClickListener {
@@ -83,5 +92,15 @@ class MainActivity : AppCompatActivity() {
                 productPictureIV.setImageBitmap(bitmap)
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        finish()
+        return super.onOptionsItemSelected(item)
     }
 }
