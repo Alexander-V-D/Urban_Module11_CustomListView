@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mainToolbar = findViewById(R.id.mainToolbar)
-        title = getString(R.string.create_shop)
+        title = getString(R.string.app_title)
         setSupportActionBar(mainToolbar)
         mainToolbar.overflowIcon?.setTint(Color.WHITE)
 

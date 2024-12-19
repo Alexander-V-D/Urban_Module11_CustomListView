@@ -1,10 +1,7 @@
 package com.example.urban_module11_customlistview
 
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import java.net.URI
 
 class Product(val name: String?, val price: String?, val info: String?, val image: String?):
     Parcelable {

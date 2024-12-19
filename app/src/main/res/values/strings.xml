@@ -5,4 +5,5 @@
     <string name="base_price">0.0</string>
     <string name="app_title">Магазин продуктов</string>
     <string name="create_shop">Создать магазин</string>
+    <string name="product">Продукт</string>
 </resources>
