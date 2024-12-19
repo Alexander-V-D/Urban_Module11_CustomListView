@@ -1,6 +1,7 @@
 package com.example.urban_module11_customlistview
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,7 @@ ArrayAdapter<Product>(context, R.layout.list_item, productList) {
         val itemNameTV = view?.findViewById<TextView>(R.id.itemNameTV)
         val itemPriceTV = view?.findViewById<TextView>(R.id.itemPriceTV)
 
-        itemPictureIV?.setImageBitmap(product?.image)
+        itemPictureIV?.setImageURI(Uri.parse(product?.image))
         itemNameTV?.text = product?.name
         itemPriceTV?.text = product?.price.toString()
         return view!!

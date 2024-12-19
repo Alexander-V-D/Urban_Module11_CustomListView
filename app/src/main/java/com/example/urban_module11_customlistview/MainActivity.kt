@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -24,8 +25,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var productPictureIV: ImageView
     private lateinit var productNameET: EditText
     private lateinit var productPriceET: EditText
+    private lateinit var productInfoET: EditText
     private lateinit var addBTN: Button
-    private var bitmap: Bitmap? = null
+    private var pictureURI: Uri? = null
     private val products = mutableListOf<Product>()
     private lateinit var mainToolbar: Toolbar
 
@@ -45,22 +47,30 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(photoPickerIntent, GALLERY_REQUEST)
         }
 
+        val listAdapter = ListAdapter(this, products)
         addBTN.setOnClickListener {
             addProduct()
 
-            val listAdapter = ListAdapter(this, products)
             productsLV.adapter = listAdapter
             listAdapter.notifyDataSetChanged()
-
             clearEditFields()
         }
+
+        productsLV.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, position, id ->
+                val product = listAdapter.getItem(position)
+                val intent = Intent(this, ProductDetailsActivity::class.java)
+                intent.putExtra(Product::class.java.simpleName, product)
+                startActivity(intent)
+            }
     }
 
     private fun addProduct() {
         val productName = productNameET.text.toString()
         val productPrice = productPriceET.text.toString()
-        val productPicture = bitmap
-        val product = Product(productName, productPrice, productPicture)
+        val productPicture = pictureURI.toString()
+        val productInfo = productInfoET.text.toString()
+        val product = Product(productName, productPrice, productInfo, productPicture)
         products.add(product)
     }
 
@@ -68,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         productNameET.text.clear()
         productPriceET.text.clear()
         productPictureIV.setImageResource(R.drawable.ic_add)
+        productInfoET.text.clear()
     }
 
     private fun init() {
@@ -75,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         productPictureIV = findViewById(R.id.productPictureIV)
         productNameET = findViewById(R.id.productNameET)
         productPriceET = findViewById(R.id.productPriceET)
+        productInfoET = findViewById(R.id.productInfoET)
         addBTN = findViewById(R.id.addBTN)
     }
 
@@ -83,13 +95,8 @@ class MainActivity : AppCompatActivity() {
         productPictureIV = findViewById(R.id.productPictureIV)
         when(requestCode) {
             GALLERY_REQUEST -> {
-                val selectedImage: Uri? = data?.data
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImage)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-                productPictureIV.setImageBitmap(bitmap)
+                pictureURI = data?.data
+                productPictureIV.setImageURI(pictureURI)
             }
         }
     }
