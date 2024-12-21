@@ -1,5 +1,6 @@
 package com.example.urban_module11_customlistview
 
+import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -18,6 +19,8 @@ class ProductDetailsActivity : AppCompatActivity() {
     private lateinit var detailsInfoTV: TextView
     private lateinit var detailsToolbar: Toolbar
 
+    private var pictureURI: Uri? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details)
@@ -25,6 +28,8 @@ class ProductDetailsActivity : AppCompatActivity() {
         title = getString(R.string.product)
         setSupportActionBar(detailsToolbar)
         detailsToolbar.overflowIcon?.setTint(Color.WHITE)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         detailsPictureIV = findViewById(R.id.detailsPictureIV)
         detailsNameTV = findViewById(R.id.detailsNameTV)
@@ -37,6 +42,12 @@ class ProductDetailsActivity : AppCompatActivity() {
         detailsNameTV.text = product?.name
         detailsPriceTV.text = product?.price
         detailsInfoTV.text = product?.info
+
+        detailsPictureIV.setOnClickListener {
+            val photoPickerIntent = Intent(Intent.ACTION_PICK)
+            photoPickerIntent.type = "image/*"
+            startActivityForResult(photoPickerIntent, GALLERY_REQUEST)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -45,7 +56,29 @@ class ProductDetailsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        finishAffinity()
-        return super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.exitMenu -> {
+                finishAffinity()
+            }
+            android.R.id.home -> finish()
+        }
+        return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        detailsPictureIV = findViewById(R.id.detailsPictureIV)
+        when (requestCode) {
+            GALLERY_REQUEST -> {
+                pictureURI = data?.data
+                detailsPictureIV.setImageURI(pictureURI)
+                Database.products[intent.getIntExtra("index", 0)] = Product(
+                    detailsNameTV.text.toString(),
+                    detailsPriceTV.text.toString(),
+                    detailsInfoTV.text.toString(),
+                    pictureURI.toString()
+                )
+            }
+        }
     }
 }

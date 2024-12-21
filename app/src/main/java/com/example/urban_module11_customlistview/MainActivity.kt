@@ -1,11 +1,9 @@
 package com.example.urban_module11_customlistview
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.AdapterView
@@ -15,7 +13,6 @@ import android.widget.ImageView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import java.io.IOException
 
 const val GALLERY_REQUEST = 145
 
@@ -28,8 +25,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var productInfoET: EditText
     private lateinit var addBTN: Button
     private var pictureURI: Uri? = null
-    private val products = mutableListOf<Product>()
+    private val products = Database.products
     private lateinit var mainToolbar: Toolbar
+    private lateinit var listAdapter: ListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(photoPickerIntent, GALLERY_REQUEST)
         }
 
-        val listAdapter = ListAdapter(this, products)
+        listAdapter = ListAdapter(this, products)
         addBTN.setOnClickListener {
             addProduct()
 
@@ -61,8 +59,14 @@ class MainActivity : AppCompatActivity() {
                 val product = listAdapter.getItem(position)
                 val intent = Intent(this, ProductDetailsActivity::class.java)
                 intent.putExtra(Product::class.java.simpleName, product)
+                intent.putExtra("index", position)
                 startActivity(intent)
             }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        listAdapter.notifyDataSetChanged()
     }
 
     private fun addProduct() {
