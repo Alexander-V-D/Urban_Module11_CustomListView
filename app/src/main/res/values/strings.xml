@@ -6,4 +6,8 @@
     <string name="app_title">Магазин продуктов</string>
     <string name="create_shop">Создать магазин</string>
     <string name="product">Продукт</string>
+    <string name="details">Подробности</string>
+    <string name="add">Добавить</string>
+    <string name="price">Стоимость</string>
+    <string name="product_name">Название</string>
 </resources>

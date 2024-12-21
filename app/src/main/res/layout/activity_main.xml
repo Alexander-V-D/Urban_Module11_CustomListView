@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="15"
-        android:hint="Название"
+        android:hint="@string/product_name"
         android:inputType="text"
         android:padding="8dp"
         app:layout_constraintStart_toEndOf="@+id/productPictureIV"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:ems="15"
         android:inputType="numberDecimal"
-        android:hint="Стоимость"
+        android:hint="@string/price"
         android:padding="8dp"
         app:layout_constraintStart_toEndOf="@+id/productPictureIV"
         app:layout_constraintTop_toBottomOf="@+id/productNameET" />
@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Добавить"
+        android:text="@string/add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productInfoET" />
@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="15"
-        android:hint="Info"
+        android:hint="@string/details"
         android:inputType="text"
         app:layout_constraintStart_toEndOf="@+id/productPictureIV"
         app:layout_constraintTop_toBottomOf="@+id/productPriceET" />
